@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Empleado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Nuevo Empleado</h2>
+    <form th:action="@{/empleados/guardar}" th:object="${empleado}" method="post">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="firstName" class="form-label">Nombre</label>
+                <input type="text" th:field="*{firstName}" class="form-control" id="firstName" required>
+            </div>
+            <div class="col">
+                <label for="lastName" class="form-label">Apellido</label>
+                <input type="text" th:field="*{lastName}" class="form-control" id="lastName">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" th:field="*{email}" class="form-control" id="email">
+            </div>
+            <div class="col">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" placeholder="********" disabled>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="job" class="form-label">Puesto</label>
+                <select th:field="*{job}" class="form-control" id="job" required>
+                    <option value="">-- Selecciona --</option>
+                    <option th:each="j : ${listaJobs}" th:value="${j.jobId}" th:text="${j.jobTitle}"></option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="salary" class="form-label">Sueldo</label>
+                <input type="number" th:field="*{salary}" class="form-control" id="salary">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Jefe</label>
+                <input type="text" class="form-control" placeholder="Steven King" disabled>
+            </div>
+            <div class="col">
+                <label for="department" class="form-label">Departamento</label>
+                <select th:field="*{department}" class="form-control" id="department" required>
+                    <option value="">-- Selecciona --</option>
+                    <option th:each="d : ${listaDepartamentos}" th:value="${d.id}" th:text="${d.departmentName}"></option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Ocultos para evitar errores si la entidad los tiene -->
+        <input type="hidden" th:field="*{hireDate}" th:value="${#dates.createNow()}" />
+        <input type="hidden" th:field="*{phoneNumber}" />
+        <input type="hidden" th:field="*{commissionPct}" />
+        <input type="hidden" th:field="*{manager}" />
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Registrar</button>
+            <a th:href="@{/empleados}" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
